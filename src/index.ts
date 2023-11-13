@@ -40,10 +40,11 @@ const startApp = async () => {
       `/graphql`,
       expressMiddleware(server, {
         context: async ({ req }) => {
-          const { isAuth } = req as any
+          const { isAuth, user } = req as any
           return {
             req,
             isAuth,
+            user,
             ...DBModels,
           }
         },

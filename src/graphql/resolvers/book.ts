@@ -37,8 +37,23 @@ export const book = {
         args: Record<string, any>,
         context: { Book: any }
       ) => {
-        const createdBook = (await context.Book.create(args.input)).transform()
-        return createdBook
+        console.log(args, 'args')
+        try {
+          const createdBook = (
+            await context.Book.create(args.input)
+          ).transform()
+          return createdBook
+        } catch (error) {
+          console.error('> createBook error: ', error)
+          throw new GraphQLError(
+            'Error saving book with name: ' + args.input.name,
+            {
+              extensions: {
+                code: '400',
+              },
+            }
+          )
+        }
       },
     },
   },

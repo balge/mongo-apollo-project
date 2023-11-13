@@ -1,15 +1,15 @@
 import { verify } from 'jsonwebtoken'
+import { User } from '../models'
 
 /** auth中间件，context里存入isAuth字段，用于Directive里鉴权 */
 const AuthMiddleware = async (req: any, res: any, next: any) => {
-  // Extract Authorization Header
   const authHeader = req.get('Authorization')
   if (!authHeader) {
     req.isAuth = false
     return next()
   }
 
-  let decodedToken
+  let decodedToken: any
   try {
     decodedToken = verify(authHeader, process.env.SECRET as string)
   } catch (err) {
@@ -21,14 +21,14 @@ const AuthMiddleware = async (req: any, res: any, next: any) => {
     return next()
   }
 
-  // TODO 去拿用户信息，usermodel还没做
+  let authUser = await User.findById(decodedToken.id)
 
-  // let authUser = await User.findById(decodedToken.id)
-  // if (!authUser) {
-  //   req.isAuth = false
-  //   return next()
-  // }
+  if (!authUser) {
+    req.isAuth = false
+    return next()
+  }
   req.isAuth = true
+  req.user = authUser
   return next()
 }
 
