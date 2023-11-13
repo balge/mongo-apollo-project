@@ -27,14 +27,14 @@ export default gql`
     """
     创建图书
     """
-    createBook(input: CreateBookInput!): Book
+    createBook(input: CreateBookInput!): Book @isAuth
     """
     更新图书
     """
-    updateBook(input: UpdateBookInput!): Book
+    updateBook(input: UpdateBookInput!): Book @isAuth
     """
     删除图书
     """
-    deleteBook(id: String!): Book
+    deleteBook(id: String!): Book @isAuth
   }
 `

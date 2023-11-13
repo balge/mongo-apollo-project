@@ -10,17 +10,18 @@ import mongoose from 'mongoose'
 import schema from './graphql'
 
 import * as DBModels from './models'
+import AuthMiddleware from './middleware/auth'
 
 dotenv.config()
 
 const PORT = process.env.PORT as string
 
-// Initialize the Express app
 const app = express()
 
 // Middlewares to the express app
 app.use(cors())
 app.use(json())
+app.use(AuthMiddleware)
 
 // Create a new Http server
 const httpServer = http.createServer(app)
@@ -38,10 +39,14 @@ const startApp = async () => {
     app.use(
       `/graphql`,
       expressMiddleware(server, {
-        context: async ({ req }) => ({
-          req,
-          ...DBModels,
-        }),
+        context: async ({ req }) => {
+          const { isAuth } = req as any
+          return {
+            req,
+            isAuth,
+            ...DBModels,
+          }
+        },
       })
     )
 
