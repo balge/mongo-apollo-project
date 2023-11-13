@@ -1,20 +1,27 @@
 import { GraphQLError } from 'graphql'
 import { IBook } from '../../models/book'
+import { PageParam } from '../../types'
 
 export const book = {
   Query: {
     books: {
       resolve: async (
         _: any,
-        args: Record<string, any>,
-        context: { Book: any }
+        { page }: { page: PageParam },
+        { Book }: { Book: any }
       ) => {
         try {
-          const list = await context.Book.find()
-          if (list != null && list.length > 0) {
-            return list.map((u: IBook) => {
-              return u.transform()
-            })
+          const total = await Book.countDocuments()
+          const list = await Book.find().skip(page.offset).limit(page.first)
+          const hasNextPage = page.offset + page.first < total
+          return {
+            edges: list.map((it: IBook) => ({
+              node: it.transform(),
+            })),
+            pageInfo: {
+              total,
+              hasNextPage,
+            },
           }
         } catch (error) {
           console.error('> getAllBooks error: ', error)

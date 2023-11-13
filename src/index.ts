@@ -10,7 +10,7 @@ import mongoose from 'mongoose'
 import schema from './graphql'
 
 import * as DBModels from './models'
-import AuthMiddleware from './middleware/auth'
+import AuthMiddleware, { MyRequest } from './middleware/auth'
 
 dotenv.config()
 
@@ -32,6 +32,7 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 })
 
+// const traceId = uuidv4()
 const startApp = async () => {
   try {
     await server.start()
@@ -40,7 +41,8 @@ const startApp = async () => {
       `/graphql`,
       expressMiddleware(server, {
         context: async ({ req }) => {
-          const { isAuth, user } = req as any
+          const { isAuth, user } = req as MyRequest
+
           return {
             req,
             isAuth,

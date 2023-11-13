@@ -1,12 +1,6 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  type Book {
-    id: ID!
-    name: String!
-    description: String!
-  }
-
   input CreateBookInput {
     name: String!
     description: String!
@@ -18,8 +12,28 @@ export default gql`
     description: String
   }
 
+  type PageInfo {
+    total: Int
+    hasNextPage: Boolean
+  }
+
+  type BookConnection {
+    edges: [BookConnectionEdge]
+    pageInfo: PageInfo
+  }
+
+  type BookConnectionEdge {
+    node: Book
+  }
+
+  type Book {
+    id: ID!
+    name: String!
+    description: String!
+  }
+
   extend type Query {
-    books: [Book]
+    books(page: PageParam): BookConnection
     book(id: String!): Book
   }
 
