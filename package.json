@@ -5,9 +5,11 @@
   "main": "index.ts",
   "scripts": {
     "dev:test": "NODE_ENV=development nodemon --exec ts-node ./index.ts",
+    "dev": "NODE_ENV=production nodemon --exec ts-node ./index.ts",
     "build:test": "NODE_ENV=development & rollup -c",
     "build": "NODE_ENV=production & rollup -c",
-    "start": "pm2 start ./dist/app.js"
+    "start:test": "NODE_ENV=development node ./dist/app.js",
+    "start": "NODE_ENV=production node ./dist/app.js"
   },
   "keywords": [
     "apollo/server",

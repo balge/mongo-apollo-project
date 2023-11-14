@@ -1,3 +1,3 @@
-import startApp from "./src";
+import startApp from './src'
 
-startApp();
+startApp()

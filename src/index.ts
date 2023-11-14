@@ -36,7 +36,6 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 })
 
-// const traceId = uuidv4()
 const startApp = async () => {
   try {
     await server.start()

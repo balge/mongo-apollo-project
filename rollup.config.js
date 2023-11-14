@@ -3,13 +3,12 @@ const commonjs = require('@rollup/plugin-commonjs')
 const typescript = require('rollup-plugin-typescript2')
 
 module.exports = {
-  input: 'src/index.ts',
+  input: 'index.ts',
 
   output: {
     file: 'dist/app.js',
     format: 'cjs',
     sourcemap: true,
-    exports: 'default',
   },
   plugins: [
     typescript({
