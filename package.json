@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node -r ts-node ./index.ts",
-    "dev": "nodemon --exec ts-node ./index.ts"
+    "dev:test": "NODE_ENV=development nodemon --exec ts-node ./index.ts",
+    "start": "node -r ts-node ./index.ts"
   },
   "keywords": [
     "apollo/server",

@@ -12,7 +12,11 @@ import schema from './graphql'
 import * as DBModels from './models'
 import AuthMiddleware, { MyRequest } from './middleware/auth'
 
-dotenv.config()
+if (process.env.NODE_ENV === 'development') {
+  dotenv.config({ path: '.env.development' })
+} else if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: '.env.production' })
+}
 
 const PORT = process.env.PORT as string
 
