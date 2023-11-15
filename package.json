@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "nodejs apollo server with apollo/server V4、 mongoose、typescript、rollup",
   "main": "index.ts",
   "scripts": {
     "dev:test": "NODE_ENV=development nodemon --exec ts-node ./index.ts",
